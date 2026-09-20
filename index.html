@@ -225,6 +225,15 @@
     font-size: 14px;
   }
 
+  .hero-photo img,
+  .about-photo img,
+  .product-photo img,
+  .map-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* ---------- Section headers ---------- */
   .section-head {
     text-align: center;
@@ -482,20 +491,20 @@
         <a href="#products" class="btn btn-primary">Shop Our Products</a>
         <a href="#visit" class="btn btn-secondary">Visit the Store</a>
       </div>
-      <div class="hero-photo">Store / hero photo goes here</div>
+      <div class="hero-photo"><img src="images/storefront-1.jpg" alt="Smoke Land and Vape storefront"></div>
     </div>
   </section>
 
   <!-- About -->
   <section class="about" id="about">
     <div class="container about-grid">
-      <div class="about-photo">Storefront photo</div>
+      <div class="about-photo"><img src="images/store-interior.jpg" alt="Inside Smoke Land and Vape"></div>
       <div class="about-text">
         <div class="section-head" style="text-align:left; margin-bottom:16px;">
           <div class="eyebrow">About Us</div>
           <h2>Smoke Land and Vape</h2>
         </div>
-        <p>We're a locally owned smoke and vape shop stocking a wide range of disposables, e-liquids, mods, glass, and accessories from trusted brands. Our team is here to help you find exactly what you're looking for.</p>
+        <p>We're a locally owned smoke and vape shop stocking a wide range of disposables, e-liquids, mods, glass, accessories, cigars, CBD, and kratom from trusted brands. Our team is here to help you find exactly what you're looking for.</p>
         <p>Stop in and check out our full selection — new products arrive regularly.</p>
         <div class="stat-row">
           <div class="stat"><b>100+</b><span>Products in stock</span></div>
@@ -518,7 +527,7 @@
       <div class="product-grid">
 
         <div class="product-card">
-          <div class="product-photo">Disposables photo</div>
+          <div class="product-photo"><img src="images/store-interior.jpg" alt="Disposable vapes on display"></div>
           <div class="product-body">
             <h3>Disposable Vapes</h3>
             <p>Wide range of flavors and puff counts from top disposable brands.</p>
@@ -527,7 +536,7 @@
         </div>
 
         <div class="product-card">
-          <div class="product-photo">E-Liquids photo</div>
+          <div class="product-photo"><img src="images/store-interior.jpg" alt="E-liquid wall of flavors"></div>
           <div class="product-body">
             <h3>E-Liquids &amp; Salt Nic</h3>
             <p>Freebase and salt nicotine e-liquids in dozens of flavor profiles.</p>
@@ -536,7 +545,7 @@
         </div>
 
         <div class="product-card">
-          <div class="product-photo">Mods &amp; devices photo</div>
+          <div class="product-photo"><img src="images/store-interior.jpg" alt="Mods and devices on display"></div>
           <div class="product-body">
             <h3>Mods &amp; Devices</h3>
             <p>Starter kits through advanced setups, plus coils and replacement parts.</p>
@@ -545,11 +554,20 @@
         </div>
 
         <div class="product-card">
-          <div class="product-photo">Glass &amp; accessories photo</div>
+          <div class="product-photo"><img src="images/accessories-shelf.jpg" alt="Glass, ashtrays, and smoke shop accessories"></div>
           <div class="product-body">
             <h3>Glass &amp; Accessories</h3>
-            <p>Pipes, papers, grinders, and other smoke shop accessories.</p>
+            <p>Pipes, papers, grinders, ashtrays, and other smoke shop accessories.</p>
             <div class="price-tag">Avg. <b>$10&ndash;$40</b></div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-photo"><img src="images/cigar-room.jpg" alt="Walk-in cigar selection room"></div>
+          <div class="product-body">
+            <h3>Cigars</h3>
+            <p>A full walk-in selection of premium and everyday cigars.</p>
+            <div class="price-tag">Avg. <b>$8&ndash;$20</b></div>
           </div>
         </div>
 
@@ -577,7 +595,7 @@
           Have a question about a product? <a href="tel:5551234567">Give us a call</a> or stop by in person.
         </div>
       </div>
-      <div class="map-placeholder">Map / location photo goes here</div>
+      <div class="map-placeholder"><img src="images/storefront-2.jpg" alt="Smoke Land and Vape storefront, look for this sign"></div>
     </div>
   </section>
 
