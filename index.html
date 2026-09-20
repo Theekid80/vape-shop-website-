@@ -139,12 +139,19 @@
   }
 
   .nav-links a {
+    white-space: nowrap;
     text-decoration: none;
     color: var(--muted);
     transition: color 0.15s;
   }
 
   .nav-links a:hover { color: var(--text); }
+
+  @media (max-width: 420px) {
+    .nav { padding: 14px 16px; }
+    .brand { font-size: 15px; }
+    .nav-links { gap: 14px; font-size: 12.5px; }
+  }
 
   section { padding: 80px 24px; }
 
