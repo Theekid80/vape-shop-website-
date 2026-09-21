@@ -20,414 +20,373 @@
 <meta name="twitter:image" content="https://theekid80.github.io/vape-shop-website-/images/storefront-1.jpg">
 <style>
   :root {
-    --bg: #0f1115;
-    --panel: #171a21;
-    --panel-alt: #1e222c;
-    --line: #2a2f3b;
+    --bg: #fff6ec;
+    --panel: #ffffff;
+    --panel-alt: #f2f3f5;
+    --line: #e2e4e9;
     --accent: #ffd23f;
     --accent-2: #ff4757;
     --accent-3: #2ed573;
-    --text: #f1f2f6;
-    --muted: #9aa0b4;
+    --text: #14161c;
+    --muted: #5b6070;
+    --link: #b45309;
+    --btn-text: #14161c;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; }
+  body { position: relative; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; overflow-x: hidden; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.5;
-  }
-
-  a { color: inherit; }
-
-  img { max-width: 100%; display: block; }
-
-  /* ---------- Age Gate ---------- */
-  #age-gate {
+  body::before {
+    content: "";
     position: fixed;
     inset: 0;
-    background: rgba(6, 7, 10, 0.97);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 24px;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 900px 600px at 15% 0%, rgba(255, 166, 64, 0.28), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 100% 30%, rgba(255, 130, 56, 0.20), transparent 60%),
+      radial-gradient(ellipse 1000px 700px at 50% 100%, rgba(255, 184, 92, 0.22), transparent 60%),
+      var(--bg);
   }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; }
 
-  #age-gate.hidden { display: none; }
-
-  .age-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 40px 32px;
-    max-width: 420px;
+  /* ---- Announcement bar ---- */
+  .announce {
+    background: var(--text);
+    color: #fff;
     text-align: center;
-  }
-
-  .age-card h2 {
-    font-size: 22px;
-    margin-bottom: 12px;
-  }
-
-  .age-card p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 24px;
-  }
-
-  .age-buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .age-buttons button {
-    flex: 1;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: none;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
-    cursor: pointer;
+    letter-spacing: 0.5px;
+    padding: 10px 16px;
   }
 
-  #age-yes {
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: #0f1115;
-  }
-
-  #age-no {
-    background: transparent;
-    border: 1px solid var(--line) !important;
-    color: var(--muted);
-  }
-
-  .age-disclaimer {
-    margin-top: 16px;
-    font-size: 11px;
-    color: #6b7185;
-  }
-
-  /* ---------- Layout ---------- */
-  body.locked { overflow: hidden; }
-
+  /* ---- Header ---- */
   header {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(15, 17, 21, 0.9);
+    z-index: 200;
+    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line);
   }
 
   .nav {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 16px 24px;
-    display: flex;
+    padding: 14px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
+    gap: 12px;
   }
 
+  .nav-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text);
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav-left { display: flex; align-items: center; gap: 4px; }
+  .nav-right { display: flex; align-items: center; gap: 4px; justify-self: end; }
+
   .brand {
+    justify-self: center;
     font-weight: 800;
-    font-size: 18px;
-    letter-spacing: 0.5px;
+    font-size: 19px;
+    text-align: center;
   }
 
   .brand span {
-    background: linear-gradient(135deg, var(--accent-3), var(--accent));
+    background: linear-gradient(135deg, var(--accent-2), var(--accent));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  .nav-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
+  .search-bar {
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 14px;
+  }
+
+  .search-bar.open { display: block; }
+
+  .search-bar input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel-alt);
+    color: var(--text);
     font-size: 14px;
   }
 
-  .nav-links a {
-    white-space: nowrap;
-    text-decoration: none;
+  .search-bar .no-results {
+    font-size: 12px;
     color: var(--muted);
-    transition: color 0.15s;
+    margin-top: 8px;
+    display: none;
   }
 
-  .nav-links a:hover { color: var(--text); }
-
-  @media (max-width: 420px) {
-    .nav { padding: 14px 16px; }
-    .brand { font-size: 15px; }
-    .nav-links { gap: 14px; font-size: 12.5px; }
+  #mobile-menu {
+    display: none;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 20px 16px;
   }
 
-  section { padding: 80px 24px; }
+  #mobile-menu.open { display: block; }
 
-  .container {
-    max-width: 1100px;
+  #mobile-menu a {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  /* ---- Hero carousel ---- */
+  .carousel {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    max-height: 640px;
+    min-height: 320px;
+    overflow: hidden;
+    background: var(--panel-alt);
+  }
+
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease;
+  }
+
+  .carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+  }
+
+  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+  .carousel-dots {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .carousel-dots button {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.55);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .carousel-dots button.active { background: #fff; width: 22px; border-radius: 5px; }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.85);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carousel-arrow.prev { left: 16px; }
+  .carousel-arrow.next { right: 16px; }
+
+  /* ---- Splash background blobs ---- */
+  .splash-zone {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .splash-zone::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1100px, 160vw);
+    height: 520px;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 18% 35%, rgba(255, 210, 63, 0.40), transparent 55%),
+      radial-gradient(circle at 82% 20%, rgba(255, 71, 87, 0.32), transparent 55%),
+      radial-gradient(circle at 50% 90%, rgba(46, 213, 115, 0.28), transparent 55%);
+    filter: blur(50px);
+    pointer-events: none;
+  }
+
+  /* ---- Headline block ---- */
+  .headline {
+    text-align: center;
+    padding: 56px 24px 40px;
+  }
+
+  .headline h1 {
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .headline p {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 520px;
+    margin: 0 auto 28px;
+  }
+
+  .btn-shop {
+    display: inline-block;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--btn-text);
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  /* ---- Collections grid ---- */
+  .collections {
+    padding: 40px 20px 72px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  /* ---------- Hero ---------- */
-  .hero {
-    padding: 100px 24px 80px;
-    text-align: center;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(255, 210, 63, 0.10), transparent 50%),
-      radial-gradient(circle at 70% 80%, rgba(255, 71, 87, 0.10), transparent 50%),
-      radial-gradient(circle at 50% 100%, rgba(46, 213, 115, 0.06), transparent 55%);
-  }
-
-  .hero h1 {
-    font-size: clamp(32px, 6vw, 56px);
+  .collections h2 {
+    font-size: 26px;
     font-weight: 800;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
-  .hero h1 span {
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .hero p {
-    color: var(--muted);
-    font-size: 18px;
-    max-width: 560px;
-    margin: 0 auto 32px;
-  }
-
-  .cta-row {
-    display: flex;
+  .collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 14px 28px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: #0f1115;
-  }
-
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--text);
-  }
-
-  .hero-photo {
-    margin-top: 56px;
-    border-radius: 16px;
+  .collection-tile {
+    position: relative;
+    aspect-ratio: 4/3;
+    border-radius: 6px;
     overflow: hidden;
-    border: 1px solid var(--line);
-    aspect-ratio: 16/7;
-    background: var(--panel);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 14px;
+    display: block;
+    text-decoration: none;
   }
 
-  .hero-photo img,
-  .about-photo img,
-  .product-photo img,
-  .map-placeholder img {
+  .collection-tile img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
   }
 
-  /* ---------- Section headers ---------- */
-  .section-head {
-    text-align: center;
-    margin-bottom: 48px;
+  .collection-tile:hover img { transform: scale(1.05); }
+
+  .collection-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.75) 100%);
   }
 
-  .section-head .eyebrow {
-    color: var(--accent-3);
-    font-size: 13px;
+  .collection-tile .tile-label {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    z-index: 2;
+    color: #fff;
     font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  .section-head h2 {
-    font-size: clamp(26px, 4vw, 36px);
-    margin-top: 8px;
-  }
-
-  .section-head p {
-    color: var(--muted);
-    margin-top: 12px;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* ---------- About ---------- */
-  .about {
-    background: var(--panel);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: center;
-  }
-
-  .about-photo {
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    aspect-ratio: 4/3;
-    background: var(--panel-alt);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  .about-text p {
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .stat-row {
-    display: flex;
-    gap: 32px;
-    margin-top: 24px;
-  }
-
-  .stat b {
-    display: block;
-    font-size: 26px;
-    color: var(--accent);
-  }
-
-  .stat:nth-child(1) b { color: var(--accent); }
-  .stat:nth-child(2) b { color: var(--accent-2); }
-  .stat:nth-child(3) b { color: var(--accent-3); }
-
-  .stat span {
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  @media (max-width: 800px) {
-    .about-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ---------- Products ---------- */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
-  }
-
-  .product-card {
-    display: block;
-    color: inherit;
-    text-decoration: none;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.15s, border-color 0.15s;
-  }
-
-  .product-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent);
-  }
-
-  .product-photo {
-    aspect-ratio: 4/3;
-    background: var(--panel-alt);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .product-body { padding: 20px; }
-
-  .product-body h3 {
-    font-size: 17px;
-    margin-bottom: 6px;
-  }
-
-  .product-body p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 14px;
-  }
-
-  .price-tag {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
-    background: var(--panel-alt);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 6px 14px;
-    font-size: 13px;
-  }
-
-  .price-tag b {
     font-size: 16px;
-    color: var(--accent-3);
   }
 
-  .price-note {
-    text-align: center;
-    color: var(--muted);
+  .collection-tile .tile-price {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    z-index: 2;
+    color: var(--text);
+    font-weight: 700;
     font-size: 12px;
-    margin-top: 32px;
+    background: rgba(255,255,255,0.92);
+    padding: 4px 10px;
+    border-radius: 999px;
   }
 
-  /* ---------- Visit / hours ---------- */
-  .visit {
-    background: var(--panel);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+  /* ---- About / Visit (reuse light theme style) ---- */
+  .about {
+    background: var(--panel-alt);
+    padding: 64px 20px;
   }
 
-  .visit-grid {
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 40px;
+    align-items: center;
   }
 
-  .info-list {
-    list-style: none;
+  .about-photo { border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .about-text h2 { font-size: 28px; margin-bottom: 12px; }
+  .about-text p { color: var(--muted); margin-bottom: 16px; }
+
+  .stat-row { display: flex; gap: 32px; margin-top: 20px; }
+  .stat b { display: block; font-size: 24px; }
+  .stat:nth-child(1) b { color: var(--accent-2); }
+  .stat:nth-child(2) b { color: var(--text); }
+  .stat:nth-child(3) b { color: var(--text); }
+  .stat span { font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 760px) {
+    .about-inner { grid-template-columns: 1fr; }
   }
 
-  .info-list li {
+  .visit {
+    padding: 64px 20px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .visit h2 { font-size: 26px; margin-bottom: 20px; }
+
+  .visit-info-list { list-style: none; max-width: 420px; }
+
+  .visit-info-list li {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
@@ -435,107 +394,91 @@
     font-size: 14px;
   }
 
-  .info-list li span:first-child {
-    color: var(--muted);
-  }
+  .visit-info-list li span:first-child { color: var(--muted); }
 
-  .map-placeholder {
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    background: var(--panel-alt);
-    aspect-ratio: 4/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 14px;
-    overflow: hidden;
-  }
-
-  .contact-card {
-    background: var(--panel-alt);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 24px;
-    margin-top: 24px;
-  }
-
-  .contact-card a {
-    color: var(--accent);
+  .visit .call-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    border-radius: 4px;
+    background: var(--text);
+    color: #fff;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 14px;
   }
 
-  @media (max-width: 800px) {
-    .visit-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ---------- Footer ---------- */
   footer {
-    padding: 32px 24px;
+    padding: 28px 20px;
     text-align: center;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
     border-top: 1px solid var(--line);
   }
 
-  footer .warning {
-    max-width: 640px;
-    margin: 0 auto 12px;
-    font-size: 11px;
-    color: #6b7185;
-  }
+  footer .warning { max-width: 600px; margin: 0 auto 8px; font-size: 10.5px; }
 </style>
 </head>
-<body class="locked">
+<body>
 
-  <!-- Age Gate -->
-  <div id="age-gate">
-    <div class="age-card">
-      <h2>Welcome to Smoke Land and Vape</h2>
-      <p>You must be 21 years of age or older to enter this site. Please confirm your age to continue.</p>
-      <div class="age-buttons">
-        <button id="age-yes">I am 21+</button>
-        <button id="age-no">Exit</button>
-      </div>
-      <div class="age-disclaimer">This product contains nicotine. Nicotine is an addictive chemical.</div>
-    </div>
-  </div>
+  <div class="announce">Welcome to Smoke Land and Vape &mdash; San Antonio, TX</div>
 
   <header>
     <nav class="nav">
+      <div class="nav-left">
+        <button class="nav-icon-btn" id="menu-btn" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="nav-icon-btn" id="search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
       <div class="brand">Smoke Land <span>&amp; Vape</span></div>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#visit">Visit Us</a></li>
-      </ul>
+      <div class="nav-right">
+        <a class="nav-icon-btn" href="tel:+12102339934" aria-label="Call">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1v3.6c0 .6-.4 1-1 1C10.6 21.2 2.8 13.4 2.8 3.7c0-.6.4-1 1-1H7.4c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.2 1.1L6.6 10.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="nav-icon-btn" href="#visit" aria-label="Visit us">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.5 7-12.5A7 7 0 0 0 5 9.5C5 14.5 12 22 12 22z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+      </div>
     </nav>
+    <div class="search-bar" id="search-bar">
+      <input type="text" id="search-input" placeholder="Search categories (e.g. hookah, glass, cigars)">
+      <div class="no-results" id="no-results">No matching categories — try disposables, e-liquids, mods, glass, hookah, papers, novelty, or cigars.</div>
+    </div>
+    <div id="mobile-menu">
+      <a href="#about">About</a>
+      <a href="#collections">Products</a>
+      <a href="#visit">Visit Us</a>
+      <a href="tel:+12102339934">Call (210) 233-9934</a>
+    </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <h1>Your Local Spot for <span>Vape &amp; Smoke</span> Essentials</h1>
-      <p>Disposables, e-liquids, mods, glass, and accessories — friendly service and the best selection in town.</p>
-      <div class="cta-row">
-        <a href="#products" class="btn btn-primary">Shop Our Products</a>
-        <a href="#visit" class="btn btn-secondary">Visit the Store</a>
-      </div>
-      <div class="hero-photo"><img src="images/storefront-1.jpg" alt="Smoke Land and Vape storefront"></div>
-    </div>
-  </section>
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track"></div>
+    <button class="carousel-arrow prev" id="prev-btn" aria-label="Previous slide">&#8249;</button>
+    <button class="carousel-arrow next" id="next-btn" aria-label="Next slide">&#8250;</button>
+    <div class="carousel-dots" id="carousel-dots"></div>
+  </div>
 
-  <!-- About -->
-  <section class="about" id="about">
-    <div class="container about-grid">
-      <div class="about-photo"><img src="images/store-aisle-wide.jpg" alt="Inside Smoke Land and Vape, glass display cases"></div>
+  <div class="headline splash-zone">
+    <h1>Smoke Land &amp; Vape</h1>
+    <p>Your local shop for disposables, e-liquids, mods, glass, hookah, papers, and cigars in San Antonio, TX.</p>
+    <a class="btn-shop" href="#collections">Shop Now</a>
+  </div>
+
+  <div class="collections" id="collections">
+    <h2>Collections</h2>
+    <div class="collection-grid" id="collection-grid"></div>
+  </div>
+
+  <div class="about" id="about">
+    <div class="about-inner">
+      <div class="about-photo"><img src="images/store-aisle-wide.jpg" alt="Inside Smoke Land and Vape"></div>
       <div class="about-text">
-        <div class="section-head" style="text-align:left; margin-bottom:16px;">
-          <div class="eyebrow">About Us</div>
-          <h2>Smoke Land and Vape</h2>
-        </div>
-        <p>We're a locally owned smoke and vape shop stocking a wide range of disposables, e-liquids, mods, glass, accessories, cigars, CBD, and kratom from trusted brands. Our team is here to help you find exactly what you're looking for.</p>
+        <h2>About Us</h2>
+        <p>We're a locally owned smoke and vape shop stocking a wide range of disposables, e-liquids, mods, glass, accessories, cigars, CBD, and kratom from trusted brands.</p>
         <p>Stop in and check out our full selection — new products arrive regularly.</p>
         <div class="stat-row">
           <div class="stat"><b>100+</b><span>Products in stock</span></div>
@@ -544,119 +487,17 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Products -->
-  <section id="products">
-    <div class="container">
-      <div class="section-head">
-        <div class="eyebrow">What We Carry</div>
-        <h2>Product Categories</h2>
-        <p>A look at what you'll find in store. Prices below are average ranges — exact pricing varies by brand and in-store promotions.</p>
-      </div>
-
-      <div class="product-grid">
-
-        <a class="product-card" href="category.html?cat=disposables">
-          <div class="product-photo"><img src="images/disposables-lostmary.jpg" alt="Lost Mary disposable vapes on display"></div>
-          <div class="product-body">
-            <h3>Disposable Vapes</h3>
-            <p>Wide range of flavors and puff counts from top disposable brands.</p>
-            <div class="price-tag">Avg. <b>$15&ndash;$25</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=eliquids">
-          <div class="product-photo"><img src="images/store-interior.jpg" alt="E-liquid wall of flavors"></div>
-          <div class="product-body">
-            <h3>E-Liquids &amp; Salt Nic</h3>
-            <p>Freebase and salt nicotine e-liquids in dozens of flavor profiles.</p>
-            <div class="price-tag">Avg. <b>$18&ndash;$28</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=mods">
-          <div class="product-photo"><img src="images/mods.jpg" alt="Box mods and devices on display"></div>
-          <div class="product-body">
-            <h3>Mods &amp; Devices</h3>
-            <p>Starter kits through advanced setups, plus coils and replacement parts.</p>
-            <div class="price-tag">Avg. <b>$30&ndash;$60</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=glass">
-          <div class="product-photo"><img src="images/glass-tower.jpg" alt="Glass water pipes and bongs on display"></div>
-          <div class="product-body">
-            <h3>Glass &amp; Water Pipes</h3>
-            <p>Bongs, bubblers, and water pipes in a range of styles and sizes.</p>
-            <div class="price-tag">Avg. <b>$20&ndash;$80</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=hookah">
-          <div class="product-photo"><img src="images/hookah-section.jpg" alt="Hookah section with hookahs on display"></div>
-          <div class="product-body">
-            <h3>Hookah</h3>
-            <p>Hookahs, bowls, hoses, coals, and shisha flavors.</p>
-            <div class="price-tag">Avg. <b>$40&ndash;$120</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=papers">
-          <div class="product-photo"><img src="images/papers-wall.jpg" alt="Rolling papers, wraps, and incense wall"></div>
-          <div class="product-body">
-            <h3>Papers, Wraps &amp; Incense</h3>
-            <p>RAW, OCB, and other top rolling paper brands, plus incense and blunt wraps.</p>
-            <div class="price-tag">Avg. <b>$2&ndash;$10</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=novelty">
-          <div class="product-photo"><img src="images/novelty-pipes.jpg" alt="Decorative novelty pipes and accessories"></div>
-          <div class="product-body">
-            <h3>Novelty &amp; Accessories</h3>
-            <p>Decorative pipes, ashtrays, grinders, and other smoke shop essentials and decor.</p>
-            <div class="price-tag">Avg. <b>$10&ndash;$40</b></div>
-          </div>
-        </a>
-
-        <a class="product-card" href="category.html?cat=cigars">
-          <div class="product-photo"><img src="images/cigar-room.jpg" alt="Walk-in cigar selection room"></div>
-          <div class="product-body">
-            <h3>Cigars</h3>
-            <p>A full walk-in selection of premium and everyday cigars.</p>
-            <div class="price-tag">Avg. <b>$8&ndash;$20</b></div>
-          </div>
-        </a>
-
-      </div>
-
-      <p class="price-note">Prices shown are approximate averages and subject to change. Ask in-store for current pricing.</p>
-    </div>
-  </section>
-
-  <!-- Visit -->
-  <section class="visit" id="visit">
-    <div class="container visit-grid">
-      <div>
-        <div class="section-head" style="text-align:left;">
-          <div class="eyebrow">Visit Us</div>
-          <h2>Store Info</h2>
-        </div>
-        <ul class="info-list">
-          <li><span>Address</span><span>8850 Huebner Rd, San Antonio, TX 78240</span></li>
-          <li><span>Every Day</span><span>8:00 AM &ndash; 11:00 PM</span></li>
-          <li><span>Phone</span><span>(210) 233-9934</span></li>
-        </ul>
-        <div class="contact-card">
-          Have a question about a product? <a href="tel:+12102339934">Give us a call</a> or stop by in person.
-        </div>
-      </div>
-      <a class="map-placeholder" href="https://www.google.com/maps/search/?api=1&query=Smoke+Land+%26+Vape+8850+Huebner+Rd+San+Antonio+TX+78240" target="_blank" rel="noopener">
-        <img src="images/storefront-2.jpg" alt="Smoke Land and Vape storefront, look for this sign">
-      </a>
-    </div>
-  </section>
+  <div class="visit splash-zone" id="visit">
+    <h2>Visit Us</h2>
+    <ul class="visit-info-list">
+      <li><span>Address</span><span>8850 Huebner Rd, San Antonio, TX 78240</span></li>
+      <li><span>Hours</span><span>Every Day · 8:00 AM – 11:00 PM</span></li>
+      <li><span>Phone</span><span>(210) 233-9934</span></li>
+    </ul>
+    <a class="call-btn" href="tel:+12102339934">Call the Store</a>
+  </div>
 
   <footer>
     <div class="warning">WARNING: This product contains nicotine. Nicotine is an addictive chemical. Products intended for adult smokers 21+ only. Not sold to minors.</div>
@@ -666,30 +507,95 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  const gate = document.getElementById('age-gate');
-  const body = document.body;
-  const STORAGE_KEY = 'slv_age_verified';
+  const CATEGORIES = [
+    { key: 'disposables', title: 'Disposable Vapes', image: 'images/disposables-lostmary.jpg', price: '$15–$25' },
+    { key: 'eliquids', title: 'E-Liquids & Salt Nic', image: 'images/store-interior.jpg', price: '$18–$28' },
+    { key: 'mods', title: 'Mods & Devices', image: 'images/mods.jpg', price: '$30–$60' },
+    { key: 'glass', title: 'Glass & Water Pipes', image: 'images/glass-tower.jpg', price: '$20–$80' },
+    { key: 'hookah', title: 'Hookah', image: 'images/hookah-section.jpg', price: '$40–$120' },
+    { key: 'papers', title: 'Papers, Wraps & Incense', image: 'images/papers-wall.jpg', price: '$2–$10' },
+    { key: 'novelty', title: 'Novelty & Accessories', image: 'images/novelty-pipes.jpg', price: '$10–$40' },
+    { key: 'cigars', title: 'Cigars', image: 'images/cigar-room.jpg', price: '$8–$20' },
+  ];
 
-  function unlock() {
-    gate.classList.add('hidden');
-    body.classList.remove('locked');
+  const SLIDES = [
+    'images/storefront-1.jpg',
+    'images/model-vaping.jpg',
+    'images/store-aisle-wide.jpg',
+    'images/model-vaping-2.jpg',
+    'images/hookah-section.jpg',
+    'images/model-vaping-3.jpg',
+    'images/glass-tower.jpg',
+    'images/model-vaping-4.jpg',
+    'images/cigar-room.jpg',
+  ];
+
+  // ---- Collections grid ----
+  document.getElementById('collection-grid').innerHTML = CATEGORIES.map(c => `
+    <a class="collection-tile" href="category.html?cat=${c.key}" data-search="${c.title.toLowerCase()}">
+      <img src="${c.image}" alt="${c.title}">
+      <div class="tile-label">${c.title}</div>
+      <div class="tile-price">Avg. ${c.price}</div>
+    </a>
+  `).join('');
+
+  // ---- Carousel ----
+  const track = document.getElementById('carousel-track');
+  const dotsWrap = document.getElementById('carousel-dots');
+  let current = 0;
+
+  track.innerHTML = SLIDES.map(src => `<div class="carousel-slide"><img src="${src}" alt=""></div>`).join('');
+  dotsWrap.innerHTML = SLIDES.map((_, i) => `<button data-slide="${i}" class="${i === 0 ? 'active' : ''}"></button>`).join('');
+
+  function goToSlide(i) {
+    current = (i + SLIDES.length) % SLIDES.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dotsWrap.querySelectorAll('button').forEach((b, idx) => b.classList.toggle('active', idx === current));
   }
 
-  try {
-    if (localStorage.getItem(STORAGE_KEY) === 'true') {
-      unlock();
-    }
-  } catch (e) {
-    /* localStorage unavailable, fall through to showing the gate */
-  }
-
-  document.getElementById('age-yes').addEventListener('click', () => {
-    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch (e) {}
-    unlock();
+  dotsWrap.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-slide]');
+    if (!btn) return;
+    goToSlide(Number(btn.dataset.slide));
   });
 
-  document.getElementById('age-no').addEventListener('click', () => {
-    window.location.href = 'https://www.google.com';
+  document.getElementById('prev-btn').addEventListener('click', () => goToSlide(current - 1));
+  document.getElementById('next-btn').addEventListener('click', () => goToSlide(current + 1));
+
+  const AUTOPLAY_MS = 1700;
+  let autoplay = setInterval(() => goToSlide(current + 1), AUTOPLAY_MS);
+  document.querySelector('.carousel').addEventListener('mouseenter', () => clearInterval(autoplay));
+  document.querySelector('.carousel').addEventListener('mouseleave', () => {
+    autoplay = setInterval(() => goToSlide(current + 1), AUTOPLAY_MS);
+  });
+
+  // ---- Mobile menu ----
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+
+  // ---- Search ----
+  const searchBtn = document.getElementById('search-btn');
+  const searchBar = document.getElementById('search-bar');
+  const searchInput = document.getElementById('search-input');
+  const noResults = document.getElementById('no-results');
+
+  searchBtn.addEventListener('click', () => {
+    searchBar.classList.toggle('open');
+    if (searchBar.classList.contains('open')) searchInput.focus();
+  });
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    const tiles = document.querySelectorAll('.collection-tile');
+    let anyVisible = false;
+    tiles.forEach(tile => {
+      const match = !q || tile.dataset.search.includes(q);
+      tile.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    noResults.style.display = (q && !anyVisible) ? 'block' : 'none';
+    if (q) document.getElementById('collections').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 </script>
 </body>
