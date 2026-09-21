@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smoke Land and Vape — Category</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-alt: #1e222c;
+    --line: #2a2f3b;
+    --accent: #7ee0ff;
+    --accent-2: #b98bff;
+    --text: #f1f2f6;
+    --muted: #9aa0b4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ---------- Age Gate ---------- */
+  #age-gate {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 7, 10, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px;
+  }
+
+  #age-gate.hidden { display: none; }
+
+  .age-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 40px 32px;
+    max-width: 420px;
+    text-align: center;
+  }
+
+  .age-card h2 { font-size: 22px; margin-bottom: 12px; }
+  .age-card p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+
+  .age-buttons { display: flex; gap: 12px; justify-content: center; }
+
+  .age-buttons button {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #age-yes {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0f1115;
+  }
+
+  #age-no {
+    background: transparent;
+    border: 1px solid var(--line) !important;
+    color: var(--muted);
+  }
+
+  .age-disclaimer { margin-top: 16px; font-size: 11px; color: #6b7185; }
+
+  body.locked { overflow: hidden; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 17, 21, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .back-link:hover { color: var(--text); }
+
+  .brand {
+    font-weight: 800;
+    font-size: 16px;
+  }
+
+  .brand span {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- Banner ---------- */
+  .banner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+
+  .banner-photo {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 16/6;
+  }
+
+  .banner-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .banner-head {
+    padding: 28px 0 8px;
+  }
+
+  .banner-head h1 {
+    font-size: clamp(26px, 4vw, 36px);
+  }
+
+  .banner-head p {
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 560px;
+  }
+
+  .disclaimer-banner {
+    margin-top: 16px;
+    background: var(--panel-alt);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ---------- Item list ---------- */
+  .items {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 80px;
+  }
+
+  .item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 4px;
+    border-radius: 14px;
+  }
+
+  .item-list::-webkit-scrollbar { width: 8px; }
+  .item-list::-webkit-scrollbar-track { background: transparent; }
+  .item-list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+
+  .item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+
+  .item-row .item-name {
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .item-row .item-desc {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .item-row .item-price {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+    background: var(--panel-alt);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 16px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--muted);
+  }
+
+  .empty-state a {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  footer {
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--line);
+  }
+
+  footer .warning {
+    max-width: 640px;
+    margin: 0 auto 12px;
+    font-size: 11px;
+    color: #6b7185;
+  }
+
+  @media (max-width: 600px) {
+    .item-row { flex-direction: column; align-items: flex-start; }
+    .item-row .item-price { align-self: flex-start; }
+  }
+</style>
+</head>
+<body class="locked">
+
+  <div id="age-gate">
+    <div class="age-card">
+      <h2>Welcome to Smoke Land and Vape</h2>
+      <p>You must be 21 years of age or older to enter this site. Please confirm your age to continue.</p>
+      <div class="age-buttons">
+        <button id="age-yes">I am 21+</button>
+        <button id="age-no">Exit</button>
+      </div>
+      <div class="age-disclaimer">This product contains nicotine. Nicotine is an addictive chemical.</div>
+    </div>
+  </div>
+
+  <header>
+    <nav class="nav">
+      <a class="back-link" href="index.html">&larr; Back to Home</a>
+      <div class="brand">Smoke Land <span>&amp; Vape</span></div>
+    </nav>
+  </header>
+
+  <div id="content"></div>
+
+  <footer>
+    <div class="warning">WARNING: This product contains nicotine. Nicotine is an addictive chemical. Products intended for adult smokers 21+ only. Not sold to minors.</div>
+    <p>&copy; <span id="year"></span> Smoke Land and Vape. All rights reserved.</p>
+  </footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const gate = document.getElementById('age-gate');
+  const body = document.body;
+  const STORAGE_KEY = 'slv_age_verified';
+
+  function unlock() {
+    gate.classList.add('hidden');
+    body.classList.remove('locked');
+  }
+
+  try {
+    if (localStorage.getItem(STORAGE_KEY) === 'true') {
+      unlock();
+    }
+  } catch (e) {}
+
+  document.getElementById('age-yes').addEventListener('click', () => {
+    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch (e) {}
+    unlock();
+  });
+
+  document.getElementById('age-no').addEventListener('click', () => {
+    window.location.href = 'https://www.google.com';
+  });
+
+  const CATEGORIES = {
+    disposables: {
+      title: 'Disposable Vapes',
+      image: 'images/disposables-lostmary.jpg',
+      alt: 'Lost Mary disposable vapes on display',
+      description: 'Wide range of flavors and puff counts from top disposable brands.',
+      items: [
+        { name: 'Blue Razz Ice', price: '$17.99' },
+        { name: 'Watermelon Ice', price: '$17.99' },
+        { name: 'Mango', price: '$17.99' },
+        { name: 'Strawberry Kiwi', price: '$17.99' },
+        { name: 'Peach Mango Watermelon', price: '$19.99' },
+        { name: 'Grape Ice', price: '$17.99' },
+        { name: 'Pineapple Coconut', price: '$19.99' },
+        { name: 'Triple Berry Ice', price: '$17.99' },
+        { name: 'Cherry Lemon', price: '$17.99' },
+        { name: 'Black Ice', price: '$17.99' },
+      ],
+    },
+    eliquids: {
+      title: 'E-Liquids & Salt Nic',
+      image: 'images/store-interior.jpg',
+      alt: 'E-liquid wall of flavors',
+      description: 'Freebase and salt nicotine e-liquids in dozens of flavor profiles.',
+      items: [
+        { name: 'Strawberry Banana — 30ml Salt Nic', price: '$19.99' },
+        { name: 'Mint Ice — 30ml Salt Nic', price: '$19.99' },
+        { name: 'Mango Peach — 30ml Salt Nic', price: '$19.99' },
+        { name: 'Blue Raspberry — 60ml Freebase', price: '$24.99' },
+        { name: 'Watermelon — 60ml Freebase', price: '$24.99' },
+        { name: 'Tobacco Custard — 60ml Freebase', price: '$22.99' },
+        { name: 'Grape Ice — 30ml Salt Nic', price: '$19.99' },
+      ],
+    },
+    mods: {
+      title: 'Mods & Devices',
+      image: 'images/mods.jpg',
+      alt: 'Box mods and devices on display',
+      description: 'Starter kits through advanced setups, plus coils and replacement parts.',
+      items: [
+        { name: 'Starter Pod Kit', price: '$29.99' },
+        { name: 'Sub-Ohm Tank', price: '$24.99' },
+        { name: 'Advanced Box Mod', price: '$49.99' },
+        { name: 'Replacement Coils (3-pack)', price: '$12.99' },
+        { name: '18650 Battery (2-pack)', price: '$14.99' },
+        { name: 'Mesh Coil Pod System', price: '$34.99' },
+      ],
+    },
+    glass: {
+      title: 'Glass & Water Pipes',
+      image: 'images/glass-tower.jpg',
+      alt: 'Glass water pipes and bongs on display',
+      description: 'Bongs, bubblers, and water pipes in a range of styles and sizes.',
+      items: [
+        { name: '10" Beaker Bong', price: '$59.99' },
+        { name: 'Mini Bubbler', price: '$24.99' },
+        { name: 'Percolator Water Pipe', price: '$79.99' },
+        { name: 'Silicone Travel Pipe', price: '$19.99' },
+        { name: 'Glass Spoon Pipe', price: '$14.99' },
+        { name: 'Recycler Rig', price: '$89.99' },
+      ],
+    },
+    hookah: {
+      title: 'Hookah',
+      image: 'images/hookah-section.jpg',
+      alt: 'Hookah section with hookahs on display',
+      description: 'Hookahs, bowls, hoses, coals, and shisha flavors.',
+      items: [
+        { name: 'Complete Hookah Set — Single Hose', price: '$59.99' },
+        { name: 'Complete Hookah Set — Multi Hose', price: '$89.99' },
+        { name: 'Replacement Hose', price: '$14.99' },
+        { name: 'Ceramic Shisha Bowl', price: '$9.99' },
+        { name: 'Hookah Coals (Box)', price: '$6.99' },
+        { name: 'Shisha Tobacco 250g (assorted flavors)', price: '$12.99' },
+      ],
+    },
+    papers: {
+      title: 'Papers, Wraps & Incense',
+      image: 'images/papers-wall.jpg',
+      alt: 'Rolling papers, wraps, and incense wall',
+      description: 'RAW, OCB, and other top rolling paper brands, plus incense and blunt wraps.',
+      items: [
+        { name: 'RAW Classic Rolling Papers', price: '$2.49' },
+        { name: 'OCB Premium Papers', price: '$2.49' },
+        { name: 'Blunt Wraps (Pack)', price: '$3.99' },
+        { name: 'Wild Berry Incense Sticks (Pack)', price: '$2.99' },
+        { name: 'Hemp Wraps (Box)', price: '$8.99' },
+        { name: 'Rolling Cones (Pack)', price: '$5.99' },
+      ],
+    },
+    novelty: {
+      title: 'Novelty & Accessories',
+      image: 'images/novelty-pipes.jpg',
+      alt: 'Decorative novelty pipes and accessories',
+      description: 'Decorative pipes, ashtrays, grinders, and other smoke shop essentials and decor.',
+      items: [
+        { name: 'Decorative Display Pipe', price: '$24.99' },
+        { name: '4-Piece Herb Grinder', price: '$12.99' },
+        { name: 'Ceramic Ashtray', price: '$9.99' },
+        { name: 'Rolling Tray', price: '$14.99' },
+        { name: 'Novelty Lighter', price: '$4.99' },
+        { name: 'Storage Jar', price: '$7.99' },
+      ],
+    },
+    cigars: {
+      title: 'Cigars',
+      image: 'images/cigar-room.jpg',
+      alt: 'Walk-in cigar selection room',
+      description: 'A full walk-in selection of premium and everyday cigars.',
+      items: [
+        { name: 'Everyday Cigar — Single', price: '$8.99' },
+        { name: 'Premium Cigar — Single', price: '$18.99' },
+        { name: 'Cigar 5-Pack', price: '$39.99' },
+        { name: 'Cigar Cutter', price: '$9.99' },
+        { name: 'Travel Humidor', price: '$29.99' },
+        { name: 'Torch Lighter', price: '$16.99' },
+      ],
+    },
+  };
+
+  function render() {
+    const params = new URLSearchParams(window.location.search);
+    const catKey = params.get('cat');
+    const cat = CATEGORIES[catKey];
+    const content = document.getElementById('content');
+
+    if (!cat) {
+      content.innerHTML = `
+        <div class="empty-state">
+          <p>We couldn't find that category.</p>
+          <p><a href="index.html#products">Browse all product categories &rarr;</a></p>
+        </div>
+      `;
+      document.title = 'Smoke Land and Vape — Category not found';
+      return;
+    }
+
+    document.title = `${cat.title} — Smoke Land and Vape`;
+
+    const itemsHtml = cat.items.map(item => `
+      <div class="item-row">
+        <div>
+          <div class="item-name">${item.name}</div>
+          ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+        </div>
+        <div class="item-price">${item.price}</div>
+      </div>
+    `).join('');
+
+    content.innerHTML = `
+      <div class="banner">
+        <div class="banner-photo"><img src="${cat.image}" alt="${cat.alt}"></div>
+        <div class="banner-head">
+          <h1>${cat.title}</h1>
+          <p>${cat.description}</p>
+          <div class="disclaimer-banner">
+            Example items and pricing shown for illustration. Actual selection and pricing vary by stock —
+            call <a href="tel:+12102339934" style="color: var(--accent); font-weight: 600;">(210) 233-9934</a>
+            or visit in store to confirm.
+          </div>
+        </div>
+      </div>
+      <div class="items">
+        <div class="item-list">
+          ${itemsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  render();
+</script>
+</body>
+</html>
