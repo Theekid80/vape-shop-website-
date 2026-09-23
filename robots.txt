@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://smokelandvape.com/sitemap.xml
+Sitemap: https://theekid80.github.io/vape-shop-website-/sitemap.xml
